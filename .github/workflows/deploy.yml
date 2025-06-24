@@ -18,11 +18,11 @@ jobs:
         with:
           dotnet-version: '8.0.x'  # Cambia a 6.0.x o 7.0.x si es necesario
 
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
+      - name: Build with dotnet
+        run: dotnet build ./eShopOnWeb.sln --configuration Release
+      
+      - name: Test with dotnet
+        run: dotnet test ./eShopOnWeb.sln --configuration Release
 
       - name: Publish
         run: dotnet publish --configuration Release --output ./publish --no-build
