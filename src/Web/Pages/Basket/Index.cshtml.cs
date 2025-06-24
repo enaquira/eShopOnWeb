@@ -59,8 +59,6 @@ public class IndexModel : PageModel
             return;
         }
 
-        throw new NotImplementedException();
-
         var basketView = await _basketViewModelService.GetOrCreateBasketForUser(GetOrSetBasketCookieAndUserName());
         var updateModel = items.ToDictionary(b => b.Id.ToString(), b => b.Quantity);
         var basket = await _basketService.SetQuantities(basketView.Id, updateModel);
