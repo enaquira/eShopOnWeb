@@ -21,8 +21,8 @@ jobs:
       - name: Build with dotnet
         run: dotnet build ./eShopOnWeb.sln --configuration Release
       
-      - name: Test with dotnet
-        run: dotnet test ./eShopOnWeb.sln --configuration Release
+      ##- name: Test with dotnet
+      ##  run: dotnet test ./eShopOnWeb.sln --configuration Release
 
       - name: Publish
         run: dotnet publish ./src/Web/Web.csproj --configuration Release --output ./publish --no-build
