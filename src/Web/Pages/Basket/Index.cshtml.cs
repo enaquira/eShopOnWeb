@@ -59,22 +59,7 @@ public class IndexModel : PageModel
             return;
         }
 
-        // Obtener el usuario actual
-        var username = GetOrSetBasketCookieAndUserName();
-
-        // Obtener el modelo de cesta actual
-        var basket = await _basketViewModelService.GetOrCreateBasketForUser(username);
-
-        // Crear un diccionario con las nuevas cantidades
-        var quantities = items.ToDictionary(i => i.Id.ToString(), i => i.Quantity);
-
-        // Actualizar las cantidades en la cesta
-        if (basket != null)
-        {
-            await _basketService.SetQuantities(basket.Id, quantities);
-            // Refrescar el modelo de la cesta para mostrar los cambios
-            BasketModel = await _basketViewModelService.GetOrCreateBasketForUser(username);
-        }
+        throw new NotImplementedException();
     }
 
     private string GetOrSetBasketCookieAndUserName()
