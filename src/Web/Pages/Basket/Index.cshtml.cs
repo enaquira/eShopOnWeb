@@ -52,14 +52,39 @@ public class IndexModel : PageModel
         return RedirectToPage();
     }
 
-    public async Task OnPostUpdate(IEnumerable<BasketItemViewModel> items)
+    public async Task<IActionResult> OnPostUpdate(IEnumerable<BasketItemViewModel> items)
     {
         if (!ModelState.IsValid)
         {
-            return;
+            return Page();
         }
 
-        throw new NotImplementedException();
+        // Obtener el usuario actual
+        var username = GetOrSetBasketCookieAndUserName();
+        var basket = await _basketViewModelService.GetOrCreateBasketForUser(username);
+
+        if (basket == null)
+        {
+            return RedirectToPage("/Index");
+        }
+
+        // Crear diccionario de cantidades actualizadas
+        var quantities = items.ToDictionary(i => i.Id.ToString(), i => i.Quantity);
+
+        // Actualizar cantidades en la cesta
+        var result = await _basketService.SetQuantities(basket.Id, quantities);
+
+        //if (!result.Succeeded)
+        //{
+        //    ModelState.AddModelError(string.Empty, "No se pudo actualizar la cesta.");
+        //    BasketModel = await _basketViewModelService.GetOrCreateBasketForUser(username);
+        //    return Page();
+        //}
+
+        // Refrescar el modelo de la cesta
+        BasketModel = await _basketViewModelService.GetOrCreateBasketForUser(username);
+
+        return RedirectToPage();
     }
 
     private string GetOrSetBasketCookieAndUserName()
